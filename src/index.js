@@ -57,6 +57,7 @@ app.get('/api/customers/:id', async(req, res) => {
     requestQuery: req.query
   });
 
+  try {
   const {id} = req.params;
   console.log(id);
 
@@ -64,6 +65,9 @@ app.get('/api/customers/:id', async(req, res) => {
   console.log(customer);
 
   res.json({customer})
+} catch(error) {
+  res.status(500).json({error: 'Something went wrong'})
+}
 
 });
 
