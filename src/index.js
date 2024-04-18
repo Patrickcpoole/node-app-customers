@@ -63,8 +63,12 @@ app.get('/api/customers/:id', async(req, res) => {
 
   const customer = await Customer.findById(id);
   console.log(customer);
-
-  res.json({customer})
+  if (!customer) {
+    res.status(404).json({error: 'User not found'})
+  } else {
+    res.json({customer})
+  }
+  
 } catch(error) {
   res.status(500).json({error: 'Something went wrong'})
 }
