@@ -39,8 +39,9 @@ app.get('/', (req, res) => {
   res.send('welcome!')
 });
 
-app.get('/api/customers', async (req, res) => {
-  console.log(await mongoose.connection.db.listCollections().toArray())
+app.get('/api/customers', async(req, res) => {
+  
+  // console.log(await mongoose.connection.db.listCollections().toArray())
   try {
     const result = await Customer.find()
     res.send({"customers": result})
@@ -50,9 +51,16 @@ app.get('/api/customers', async (req, res) => {
   
 });
 
-app.post('/api/customers', (req, res) => {
-  console.log(req.body)
-  res.send(req.body)
+app.post('/api/customers', async(req, res) => {
+  console.log(req.body);
+  const customer = new Customer(req.body);
+  try {
+    await customer.save();
+    res.status(201).json({customer})
+  } catch(error) {
+    res.status(400).json({error: error.message})
+  }
+
 })
 
 app.post('/', (req, res) => {
