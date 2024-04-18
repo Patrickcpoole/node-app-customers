@@ -4,8 +4,12 @@ const PORT = 3000;
 
 app.get('/', (req, res) => {
   res.send('Hello World')
+});
+
+app.post('/', (req, res) => {
+  res.send('POSTIN!')
 })
 
 app.listen(PORT, () => {
   console.log('App listenting on port ' + PORT)
-})
+});
