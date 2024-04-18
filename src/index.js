@@ -34,12 +34,20 @@ const customer = new Customer({
   industry: 'Marketing'
 });
 
+
 app.get('/', (req, res) => {
-  res.send(customer)
+  res.send('welcome!')
 });
 
-app.get('/api/customers', (req, res) => {
-  res.send({data: customers})
+app.get('/api/customers', async (req, res) => {
+  console.log(await mongoose.connection.db.listCollections().toArray())
+  try {
+    const result = await Customer.find()
+    res.send({"customers": result})
+  } catch(error) {
+    res.status(500).json({error: error.message})
+  }
+  
 });
 
 app.post('/api/customers', (req, res) => {
